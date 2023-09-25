@@ -1,0 +1,20 @@
+FROM rust:latest as builder
+
+WORKDIR /api
+COPY . .
+
+RUN cargo build --release
+
+RUN rm src/*.rs
+COPY ./src ./src
+
+RUN rm ./target/release/deps/api*
+RUN cargo build --release
+
+FROM rust:latest
+RUN apt-get update && apt-get install -y libssl-dev ca-certificates && rm -rf /var/lib/apt/lists/*
+COPY --from=builder /api/target/release/api .
+
+EXPOSE 3000
+
+CMD ["./api"]
