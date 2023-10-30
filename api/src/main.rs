@@ -14,7 +14,9 @@ async fn main() {
     let app = Router::new()
         .route("/", get(root_handler::main))
         .route("/alan-partridge-quote", get(ap_quote_handler::main))
-        .route("/octopus", get(octopus_handler::main));
+        .route("/octopus", get(octopus_handler::main))
+        .route("/octopus/gas", get(octopus_handler::get_gas_consumption))
+        .route("/octopus/electric", get(octopus_handler::get_electricity_consumption));
 
     axum::Server::bind(&"0.0.0.0:3000".parse().unwrap())
         .serve(app.into_make_service())
