@@ -1,0 +1,28 @@
+FROM node:20-alpine as base
+
+FROM base as dependencies
+WORKDIR /app
+
+COPY package.json yarn.lock* ./
+
+RUN yarn install --frozen-lockfile
+
+FROM dependencies as builder
+WORKDIR /app
+
+COPY --from=dependencies /app/node_modules ./node_modules
+COPY . .
+
+COPY .env.production .env
+
+RUN yarn build
+
+FROM nginx:latest as runner
+
+WORKDIR /usr/share/nginx/html
+
+RUN rm -rf ./*
+
+COPY --from=builder /app/out .
+
+ENTRYPOINT [ "nginx", "-g", "daemon off;" ]
