@@ -5,12 +5,19 @@ use api_handlers::{
 
 use axum::{routing::get, Router};
 use dotenv::dotenv;
+use http::header::CONTENT_TYPE;
+use tower_http::cors::{Any, CorsLayer};
 
 #[tokio::main]
 async fn main() {
     dotenv().ok();
 
+    let cors = CorsLayer::new()
+        .allow_origin(Any)
+        .allow_headers([CONTENT_TYPE]);
+
     let octopus_routes = Router::new()
+        .layer(cors)
         .route("/", get(octopus_handler::main))
         .route("/about", get(octopus_handler::about))
         .route("/gas", get(octopus_handler::get_gas_consumption))
@@ -27,7 +34,7 @@ async fn main() {
 
     let app = Router::new().nest("/api", api_routes);
 
-    axum::Server::bind(&"0.0.0.0:3000".parse().unwrap())
+    axum::Server::bind(&"0.0.0.0:5001".parse().unwrap())
         .serve(app.into_make_service())
         .await
         .unwrap();

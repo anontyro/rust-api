@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metdata:
+  name: rust-api-deploy
+  labels:
+    app: rust-api
+    version: {{ .Values.rustApi.version }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rust-api
+      version: {{ .Values.rustApi.version }}
+  template:
+    metadata:
+      labels:
+        app: rust-api
+        version: {{ .Values.rustApi.version }}
+  spec:
+    containers:
+      - name: rust-api
+        image: {{ .Values.rustApi.image }}
+        ports:
+          - containerPort: {{ .Values.rustApi.port }}

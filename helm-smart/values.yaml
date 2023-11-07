@@ -1,0 +1,17 @@
+postgres:
+  image: postgres
+  port: 5432
+  db: postgres
+  user: postgres
+  password: postgres
+
+rustApi:
+  image: rust-api:latest
+  port: 5001
+  version: v1.0.0
+
+frontend:
+  image: smart-frontend:lastest
+  port: 3000
+  containerPort: 80
+  version: v1.0.0

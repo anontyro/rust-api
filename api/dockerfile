@@ -15,6 +15,6 @@ FROM rust:latest
 RUN apt-get update && apt-get install -y libssl-dev ca-certificates && rm -rf /var/lib/apt/lists/*
 COPY --from=builder /api/target/release/api .
 
-EXPOSE 3000
+EXPOSE 5001
 
 CMD ["./api"]

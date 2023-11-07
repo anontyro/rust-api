@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deploy
+  labels:
+    app: frontend
+    version: {{ .Values.frontend.version }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+      version: {{ .Values.frontend.version }}
+  template:
+    metadata:
+      labels:
+        app: frontend
+        version: {{ .Values.frontend.version }}
+    spec:
+      containers:
+      - name: frontend
+        image: {{ .Values.frontend.image }}
+        ports:
+        - containerPort: {{ .Values.frontend.containerPort }}
+        env:
+        - name: BACKEND_URL
+          value: rust-api-service

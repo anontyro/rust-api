@@ -1,15 +1,14 @@
 "use client";
-import Image from "next/image";
 import React from "react";
 
-export default function Home() {
+const AboutPage: React.FC = () => {
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
   const [response, setResponse] = React.useState<any>(null);
 
   React.useEffect(() => {
     const getOctopusEndpoint = async () => {
       setIsLoading(true);
-      const url = "http://localhost:5001/api/octopus/about";
+      const url = "rust-api/api/octopus";
       console.log("url", url);
       const response = await fetch(url);
 
@@ -29,4 +28,6 @@ export default function Home() {
       <p>{response === null ? "No content" : response}</p>
     </div>
   );
-}
+};
+
+export default AboutPage;
