@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metdata:
   name: rust-api-deploy
+  namespace: {{ .Values.namespace }}
   labels:
     app: rust-api
     version: {{ .Values.rustApi.version }}

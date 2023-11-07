@@ -15,3 +15,5 @@ frontend:
   port: 3000
   containerPort: 80
   version: v1.0.0
+
+namespace: smart-app
